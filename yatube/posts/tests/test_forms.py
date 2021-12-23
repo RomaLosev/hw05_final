@@ -165,6 +165,10 @@ class CommentFormTest(TestCase):
             text='test_comment',
             created=cls.pub_date,
         )
+    # Если не создавать коммент здесь,
+    # а вводить данные в функции,
+    # выходит ошибка на pub_date(Querry_set is not true)
+    # Я еще попробую переделать, пока отправлю так)
 
     def test_comment_created(self):
         """Проверяем что комментарий создатся"""
