@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from posts.models import Group, Post, Comment, Follow
+from posts.models import Group, Post, Comment
 from django.utils import timezone
 
 User = get_user_model()
@@ -60,6 +60,7 @@ class GroupModelTest(TestCase):
                     str(group), expected
                 )
 
+
 class CommentModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -76,7 +77,7 @@ class CommentModelTest(TestCase):
             text='test_comment',
             created=cls.pub_date,
         )
-        
+
     def test_comment_model_have_correct_object_names(self):
         """Проверяем, что у модели Comment корректно работает __str__."""
         comment = CommentModelTest.comment
@@ -88,4 +89,4 @@ class CommentModelTest(TestCase):
             with self.subTest(value=value):
                 self.assertEqual(
                     str(comment), expected
-                )    
+                )

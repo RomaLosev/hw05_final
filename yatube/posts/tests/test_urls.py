@@ -2,7 +2,6 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from posts.models import Post, Group
 from http import HTTPStatus
-from django.urls import reverse
 
 User = get_user_model()
 
@@ -65,7 +64,7 @@ class PostURLTests(TestCase):
             f'/posts/{self.post.id}/',
             '/create/',
             f'/posts/{self.post.id}/edit/',
-            f'/follow/',
+            '/follow/',
             f'/profile/{self.user.username}/follow/',
             f'/profile/{self.user.username}/unfollow/',
         }

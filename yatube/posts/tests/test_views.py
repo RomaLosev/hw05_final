@@ -305,7 +305,7 @@ class FollowViewsTest(TestCase):
         )
         page_object = response.context['page_obj']
         self.assertEqual((len(page_object)), 1)
-    
+
     def test_can_unfollow(self):
         self.follower_client.get(
             reverse('posts:profile_follow', args=[self.author])

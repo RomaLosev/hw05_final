@@ -166,7 +166,6 @@ class CommentFormTest(TestCase):
             created=cls.pub_date,
         )
 
-
     def test_comment_created(self):
         """Проверяем что комментарий создатся"""
         comment_count = Comment.objects.count()

@@ -28,7 +28,8 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('text',)
     list_filter = ('pub_date',)
     empty_value_display = '-пусто-'
-    
+
+
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'post',
@@ -42,6 +43,7 @@ class CommentAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
     list_display_links = None
 
+
 class FollowAdmin(admin.ModelAdmin):
     list_display = (
         'user',
@@ -51,7 +53,7 @@ class FollowAdmin(admin.ModelAdmin):
     search_fields = ('user',)
     list_filter = ('user',)
     empty_value_display = '-пусто-'
-    list_display_links = None 
+    list_display_links = None
 
 
 admin.site.register(Post, PostAdmin)
