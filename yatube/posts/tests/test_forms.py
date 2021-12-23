@@ -132,8 +132,43 @@ class PostFormsTests(TestCase):
         self.assertEqual(edit_post.author, self.author)
         self.assertEqual(edit_post.group, self.group)
 
+
+class CommentFormTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.guest_client = Client()
+
+        cls.user = User.objects.create_user(username='test_user')
+        cls.authorized_client = Client()
+        cls.authorized_client.force_login(cls.user)
+
+        cls.author = User.objects.create_user(username='test_author')
+        cls.authorized_author = Client()
+        cls.authorized_author.force_login(cls.author)
+
+        cls.group = Group.objects.create(
+            title='test_group_title',
+            slug='test_group_slug',
+            description='test_group_description',
+        )
+
+        cls.post = Post.objects.create(
+            text='Тестовый пост',
+            group=cls.group,
+            author=cls.author,
+        )
+        cls.pub_date = timezone.now()
+        cls.comment = Comment.objects.create(
+            post_id=cls.post.id,
+            author=cls.author,
+            text='test_comment',
+            created=cls.pub_date,
+        )
+
+
     def test_comment_created(self):
-        """Проверяем что коментарий создатся"""
+        """Проверяем что комментарий создатся"""
         comment_count = Comment.objects.count()
         form_data = {
             'post_id': self.post.id,

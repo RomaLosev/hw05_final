@@ -278,39 +278,48 @@ class FollowViewsTest(TestCase):
         )
 
     def setUp(self):
-        # Клиент подписчика
         self.follower_client = Client()
         self.follower_client.force_login(self.follower)
-        # Клиент не подписчика
+
         self.unfollower_client = Client()
         self.unfollower_client.force_login(self.unfollower)
-        # Клиент автора
+
         self.author_client = Client()
         self.author_client.force_login(self.author)
 
-    def test_can_follow_and_unfollow(self):
+    def test_can_follow(self):
         """Авторизованный пользователь может подписываться и отписываться"""
-        # Проверяем, что постов в избранном нет
+
         response = self.follower_client.get(
             reverse('posts:follow_index')
         )
         page_object = response.context['page_obj']
         self.assertEqual((len(page_object)), 0)
-        # Подписываемся
+
         self.follower_client.get(
             reverse('posts:profile_follow', args=[self.author])
         )
-        # Проверяем, что в избранном появился пост
+
         response = self.follower_client.get(
             reverse('posts:follow_index')
         )
         page_object = response.context['page_obj']
         self.assertEqual((len(page_object)), 1)
-        # Отпимываемся
+    
+    def test_can_unfollow(self):
+        self.follower_client.get(
+            reverse('posts:profile_follow', args=[self.author])
+        )
+        response = self.follower_client.get(
+            reverse('posts:follow_index')
+        )
+        page_object = response.context['page_obj']
+        self.assertEqual((len(page_object)), 1)
+
         self.follower_client.get(
             reverse('posts:profile_unfollow', args=[self.author])
         )
-        # Проверяем, что пост пропал
+
         response = self.follower_client.get(
             reverse('posts:follow_index')
         )
@@ -319,7 +328,7 @@ class FollowViewsTest(TestCase):
 
     def test_follow_post(self):
         """Проверяем что пост не появляется у того, кто не подписан"""
-        # Подписываемся
+
         self.follower_client.get(
             reverse('posts:profile_follow', args=[self.author])
         )
@@ -327,9 +336,9 @@ class FollowViewsTest(TestCase):
             reverse('posts:follow_index')
         )
         post_object = response.context['page_obj']
-        # Пост есть у подписчика
+
         self.assertEqual((len(post_object)), 1)
-        # Поста нет у не подписчика
+
         response = self.unfollower_client.get(
             reverse('posts:follow_index')
         )

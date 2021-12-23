@@ -40,6 +40,7 @@ class PostURLTests(TestCase):
             f'/posts/{cls.post.id}/': 'posts/post_detail.html',
             '/create/': 'posts/create_post.html',
             f'/posts/{cls.post.id}/edit/': 'posts/create_post.html',
+            '/follow/': 'posts/follow.html',
         }
 
     def test_urls_uses_correct_template(self):
@@ -64,6 +65,9 @@ class PostURLTests(TestCase):
             f'/posts/{self.post.id}/',
             '/create/',
             f'/posts/{self.post.id}/edit/',
+            f'/follow/',
+            f'/profile/{self.user.username}/follow/',
+            f'/profile/{self.user.username}/unfollow/',
         }
         for adress in urls:
             with self.subTest(adress=adress):
@@ -92,6 +96,6 @@ class PostURLTests(TestCase):
     def test_comment_guest(self):
         """Не авторизованый пользователь не может комментировать посты"""
         response = PostURLTests.guest_client.get(
-            reverse('posts:add_comment', args=[self.post.id])
+            f'posts/{self.post.id}/comment'
         )
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertEqual(response.status_code, 404)

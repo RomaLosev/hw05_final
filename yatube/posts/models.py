@@ -1,7 +1,5 @@
-import datetime as dt
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils import timezone
 
 User = get_user_model()
 
@@ -87,16 +85,12 @@ class Comment(models.Model):
     )
 
     class Meta:
-        ordering = ['-created']
+        ordering = ('-created',)
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
         return self.text[:15]
-
-    def is_recently_pub(self):
-        now = timezone.now()
-        return self.created >= (now - dt.timedelta(minutes=20))
 
 
 class Follow(models.Model):
@@ -112,10 +106,13 @@ class Follow(models.Model):
     )
 
     class Meta:
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
-                fields=['user', 'author'],
-                name='unique subs')
-        ]
+                fields=('user', 'author',),
+                name='unique subs'),
+        )
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
+        
+        def __str__(self):
+            return f'{self.user} подписан на {self.author}' 
