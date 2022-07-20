@@ -10,20 +10,27 @@
 
 ___
 # Запуск проекта в dev-режиме
-Клонировать репозиторий и перейти в него в командной строке:
-Установите и активируйте виртуальное окружение:
+
+Клонируйте репозиторий
+```
+git clone [link]
+```
+
+#Установите и активируйте виртуальное окружение:
 ___
-# Для пользователей Windows:
+#### Для пользователей Windows:
 ```
 python -m venv venv
-source venv/Scripts/activate
+source venv/scripts/activate
 python -m pip install --upgrade pip
 ```
 #### Установите зависимости из файла requirements.txt
 ```
 pip install -r requirements.txt
 ```
-#### Перейдите в каталог с файлом manage.py выполните команды: Выполнить миграции:
+#### Перейдите в каталог с файлом manage.py и выполните команды: 
+
+#### Выполнить миграции:
 ```
 python manage.py migrate
 ```
@@ -36,7 +43,7 @@ python manage.py createsuperuser
 python manage.py collectstatic
 ```
 
-### Запуск проекта:
+# Запуск проекта:
 ```
 python manage.py runserver
 ```
